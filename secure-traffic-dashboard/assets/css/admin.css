@@ -1,0 +1,192 @@
+/**
+ * SecureTraffic Dashboard - admin styles.
+ *
+ * Uses CSS custom properties that adapt to the WordPress admin colour scheme
+ * and to the user's OS dark-mode preference, so the dashboard stays legible in
+ * both light and dark contexts.
+ *
+ * @package SecureTraffic_Dashboard
+ */
+
+:root {
+	--std-bg: #fff;
+	--std-fg: #1d2327;
+	--std-muted: #646970;
+	--std-border: #dcdcde;
+	--std-accent: #2271b1;
+	--std-danger: #d63638;
+	--std-warn: #dba617;
+	--std-ok: #00a32a;
+	--std-panel-shadow: 0 1px 2px rgba( 0, 0, 0, .06 );
+}
+
+@media ( prefers-color-scheme: dark ) {
+	:root {
+		--std-bg: #1e1e1e;
+		--std-fg: #e0e0e0;
+		--std-muted: #a7aaad;
+		--std-border: #3c434a;
+		--std-panel-shadow: none;
+	}
+}
+
+/* Title */
+.std-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.std-title .dashicons {
+	color: var( --std-accent );
+	font-size: 28px;
+	width: 28px;
+	height: 28px;
+}
+
+/* Mode notice */
+.std-mode-notice .dashicons { vertical-align: text-bottom; color: var( --std-accent ); }
+
+/* Tabs */
+.std-tabs .nav-tab { display: inline-flex; align-items: center; gap: 6px; }
+.std-tabs .dashicons { font-size: 18px; width: 18px; height: 18px; }
+
+/* Panels */
+.std-panel {
+	background: var( --std-bg );
+	color: var( --std-fg );
+	border: 1px solid var( --std-border );
+	border-radius: 8px;
+	padding: 16px 20px;
+	margin: 16px 0;
+	box-shadow: var( --std-panel-shadow );
+}
+.std-panel h3 { margin-top: 0; display: flex; align-items: center; gap: 6px; }
+
+/* Cards grid */
+.std-cards {
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax( 180px, 1fr ) );
+	gap: 14px;
+	margin: 16px 0;
+}
+.std-card {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	background: var( --std-bg );
+	border: 1px solid var( --std-border );
+	border-left: 4px solid var( --std-accent );
+	border-radius: 8px;
+	padding: 16px;
+	box-shadow: var( --std-panel-shadow );
+}
+.std-card .dashicons { font-size: 28px; width: 28px; height: 28px; color: var( --std-accent ); }
+.std-card-danger { border-left-color: var( --std-danger ); }
+.std-card-danger .dashicons { color: var( --std-danger ); }
+.std-card-warn { border-left-color: var( --std-warn ); }
+.std-card-warn .dashicons { color: var( --std-warn ); }
+.std-card-ok { border-left-color: var( --std-ok ); }
+.std-card-ok .dashicons { color: var( --std-ok ); }
+.std-card-body { display: flex; flex-direction: column; }
+.std-card-value { font-size: 24px; font-weight: 700; line-height: 1.1; }
+.std-card-label { color: var( --std-muted ); font-size: 12px; }
+
+/* Impact banner */
+.std-impact-banner {
+	background: linear-gradient( 90deg, rgba( 0, 163, 42, .12 ), transparent );
+	border: 1px solid var( --std-border );
+	border-radius: 8px;
+	padding: 12px 16px;
+	margin: 12px 0;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.std-impact-banner .dashicons { color: var( --std-ok ); }
+
+/* Toolbar */
+.std-toolbar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.std-toolbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.std-search { min-width: 220px; }
+.std-filter { display: inline-flex; align-items: center; gap: 4px; }
+
+/* Tables */
+.std-log-table { margin-top: 12px; }
+.std-log-table td { word-break: break-word; }
+.std-loading-row td { text-align: center; color: var( --std-muted ); padding: 20px; }
+
+/* Badges */
+.std-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; color: #fff; }
+.std-badge-ok { background: var( --std-ok ); }
+.std-badge-warn { background: var( --std-warn ); color: #1d2327; }
+.std-badge-danger { background: var( --std-danger ); }
+
+/* Pagination */
+.std-pagination { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.std-page-info { color: var( --std-muted ); font-size: 12px; }
+
+/* Charts */
+.std-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.std-chart-grid.std-three { grid-template-columns: repeat( 3, 1fr ); }
+@media ( max-width: 782px ) {
+	.std-chart-grid, .std-chart-grid.std-three { grid-template-columns: 1fr; }
+}
+.std-chart-box h4, .std-top-box h4 { margin: 0 0 8px; }
+
+/* Top lists */
+.std-top-list { margin: 0; padding-left: 0; list-style: none; }
+.std-top-list li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var( --std-border ); }
+.std-top-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 75%; }
+.std-top-count { font-weight: 600; color: var( --std-accent ); }
+
+/* Map */
+.std-map { height: 360px; border-radius: 8px; border: 1px solid var( --std-border ); }
+
+/* Two-column grids */
+.std-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media ( max-width: 782px ) { .std-grid-2 { grid-template-columns: 1fr; } }
+
+/* Form rows */
+.std-form-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+.std-checkbox { display: block; margin: 8px 0; }
+.std-warn { color: var( --std-danger ); font-weight: 600; }
+
+/* Status list */
+.std-status-list { list-style: none; margin: 0 0 12px; padding: 0; }
+.std-status-list li { padding: 6px 0 6px 24px; position: relative; }
+.std-status-list li::before { position: absolute; left: 0; font-family: dashicons; }
+.std-status-list li.on::before { content: "\f147"; color: var( --std-ok ); }
+.std-status-list li.off::before { content: "\f335"; color: var( --std-danger ); }
+
+/* Impact grid */
+.std-impact-grid { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.std-impact-box { text-align: center; padding: 16px 24px; border: 1px solid var( --std-border ); border-radius: 8px; min-width: 160px; }
+.std-impact-result { background: rgba( 0, 163, 42, .1 ); border-color: var( --std-ok ); }
+.std-impact-num { display: block; font-size: 28px; font-weight: 700; }
+.std-impact-cap { display: block; color: var( --std-muted ); font-size: 12px; }
+.std-impact-arrow { font-size: 28px; color: var( --std-muted ); }
+
+/* Recommendations */
+.std-recommendations ul { list-style: disc; margin-left: 20px; }
+.std-recommendations li { margin: 6px 0; }
+
+/* Note panel */
+.std-note { background: rgba( 34, 113, 177, .06 ); }
+
+/* Wizard */
+.std-wizard {
+	position: relative;
+	background: var( --std-bg );
+	border: 1px solid var( --std-accent );
+	border-radius: 10px;
+	padding: 20px 24px;
+	margin: 16px 0;
+	box-shadow: var( --std-panel-shadow );
+}
+.std-wizard h2 { display: flex; align-items: center; gap: 8px; margin-top: 0; }
+.std-wizard-steps { margin: 12px 0; }
+.std-wizard-steps li { margin: 8px 0; }
+.std-wizard-close { position: absolute; top: 12px; right: 12px; background: none; border: 0; cursor: pointer; color: var( --std-muted ); }
+
+/* Footer */
+.std-footer { color: var( --std-muted ); font-size: 12px; margin-top: 24px; }
