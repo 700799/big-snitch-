@@ -43,34 +43,30 @@ class STD_Export {
 			$table = 'traffic';
 		}
 
-		// Pull up to a sane maximum number of rows for the export.
-		$result = STD_Logger::get_rows(
-			$table,
-			array(
-				'page'     => 1,
-				'per_page' => 200,
-				'orderby'  => 'blocks' === $table ? 'created' : 'event_time',
-				'order'    => 'DESC',
-			)
-		);
-
-		// For exports we want everything, not just one page; loop pages.
-		$rows  = array();
-		$page  = 1;
-		$total = $result['total'];
-		do {
-			$batch = STD_Logger::get_rows(
+		// For exports we want everything, not just one page; loop pages until we
+		// have the full set (hard-capped to protect memory). A running counter
+		// avoids calling count() inside the loop condition.
+		$orderby = ( 'blocks' === $table ) ? 'created' : 'event_time';
+		$rows    = array();
+		$fetched = 0;
+		$total   = null;
+		for ( $page = 1; $page <= 500; $page++ ) {
+			$batch   = STD_Logger::get_rows(
 				$table,
 				array(
 					'page'     => $page,
 					'per_page' => 200,
-					'orderby'  => 'blocks' === $table ? 'created' : 'event_time',
+					'orderby'  => $orderby,
 					'order'    => 'DESC',
 				)
 			);
-			$rows = array_merge( $rows, $batch['rows'] );
-			++$page;
-		} while ( count( $rows ) < $total && $page <= 500 ); // hard cap: 100k rows.
+			$total   = ( null === $total ) ? (int) $batch['total'] : $total;
+			$rows    = array_merge( $rows, $batch['rows'] );
+			$fetched = $fetched + count( $batch['rows'] );
+			if ( $fetched >= $total || empty( $batch['rows'] ) ) {
+				break;
+			}
+		}
 
 		if ( 'json' === $format ) {
 			$this->stream_json( $table, $rows );
@@ -95,7 +91,9 @@ class STD_Export {
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
 
-		$out = fopen( 'php://output', 'w' );
+		// Streaming directly to the output buffer; WP_Filesystem is not
+		// applicable to php://output.
+		$out = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 
 		if ( ! empty( $rows ) ) {
 			// Header row from the first record's keys.
@@ -107,7 +105,7 @@ class STD_Export {
 			fputcsv( $out, array( 'no_data' ) );
 		}
 
-		fclose( $out );
+		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 	}
 
 	/**
@@ -126,11 +124,11 @@ class STD_Export {
 
 		echo wp_json_encode(
 			array(
-				'table'       => $table,
-				'generated'   => gmdate( 'c' ),
-				'site'        => home_url(),
-				'row_count'   => count( $rows ),
-				'rows'        => $rows,
+				'table'     => $table,
+				'generated' => gmdate( 'c' ),
+				'site'      => home_url(),
+				'row_count' => count( $rows ),
+				'rows'      => $rows,
 			),
 			JSON_PRETTY_PRINT
 		);

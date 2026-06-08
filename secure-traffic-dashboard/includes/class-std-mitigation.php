@@ -295,7 +295,7 @@ class STD_Mitigation {
 		}
 
 		list( $subnet, $bits ) = explode( '/', $cidr, 2 );
-		$bits = (int) $bits;
+		$bits                  = (int) $bits;
 
 		// Only handle IPv4 range maths here.
 		if ( false === filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 )

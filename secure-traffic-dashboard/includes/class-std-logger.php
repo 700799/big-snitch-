@@ -162,7 +162,7 @@ class STD_Logger {
 			'order'    => 'DESC',
 			'where'    => array(),
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$args     = wp_parse_args( $args, $defaults );
 
 		$table_name = STD_Helpers::table( $table );
 		$page       = max( 1, absint( $args['page'] ) );
@@ -205,8 +205,8 @@ class STD_Logger {
 		$total = (int) ( $params ? $wpdb->get_var( $wpdb->prepare( $count_sql, $params ) ) : $wpdb->get_var( $count_sql ) );
 
 		// Page of rows.
-		$data_sql      = "SELECT * FROM {$table_name}{$where_sql} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d";
-		$data_params   = array_merge( $params, array( $per_page, $offset ) );
+		$data_sql    = "SELECT * FROM {$table_name}{$where_sql} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d";
+		$data_params = array_merge( $params, array( $per_page, $offset ) );
 		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		$rows = $wpdb->get_results( $wpdb->prepare( $data_sql, $data_params ), ARRAY_A );
 
@@ -315,7 +315,7 @@ class STD_Logger {
 		$table_name = STD_Helpers::table( $table );
 		$cutoff     = gmdate( 'Y-m-d H:i:s', time() - ( $days * DAY_IN_SECONDS ) );
 
-		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- table name whitelisted.
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table name whitelisted via STD_Helpers::table(); value is prepared.
 		return (int) $wpdb->query( $wpdb->prepare( "DELETE FROM {$table_name} WHERE event_time < %s", $cutoff ) );
 	}
 

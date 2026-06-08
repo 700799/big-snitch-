@@ -63,9 +63,11 @@ class STD_Settings {
 			'login_window'        => 300,   // seconds.
 			'login_lockout'       => 900,   // seconds.
 
-			// GeoIP.
+			// GeoIP. Offline-first: 'headers' reads CDN/proxy country headers and
+			// makes no external request. External providers are opt-in.
 			'geoip_enabled'       => 1,
-			'geoip_provider'      => 'ip-api',  // ip-api|maxmind.
+			'geoip_trust_headers' => 1,
+			'geoip_provider'      => 'headers', // headers|ip-api|maxmind.
 			'geoip_api_key'       => '',
 
 			// Network / proxy.
@@ -81,6 +83,10 @@ class STD_Settings {
 			'alerts_enabled'      => 0,
 			'alert_threshold'     => 50,    // failed logins per hour.
 			'alert_email'         => '',
+
+			// Scheduled digest report.
+			'digest_frequency'    => 'off', // off|daily|weekly.
+			'digest_email'        => '',
 
 			// Cleanup.
 			'delete_on_uninstall' => 0,
@@ -114,13 +120,13 @@ class STD_Settings {
 	/**
 	 * Convenience accessor for a single setting.
 	 *
-	 * @param string $key     Setting key.
-	 * @param mixed  $default Fallback if the key is missing.
+	 * @param string $key      Setting key.
+	 * @param mixed  $fallback Value to return if the key is missing.
 	 * @return mixed
 	 */
-	public static function get( $key, $default = null ) {
+	public static function get( $key, $fallback = null ) {
 		$settings = self::get_settings();
-		return array_key_exists( $key, $settings ) ? $settings[ $key ] : $default;
+		return array_key_exists( $key, $settings ) ? $settings[ $key ] : $fallback;
 	}
 
 	/**
@@ -178,6 +184,7 @@ class STD_Settings {
 			'block_bad_patterns',
 			'bruteforce_enabled',
 			'geoip_enabled',
+			'geoip_trust_headers',
 			'trust_proxy',
 			'alerts_enabled',
 			'delete_on_uninstall',
@@ -191,9 +198,13 @@ class STD_Settings {
 			? $input['sensitivity']
 			: $defaults['sensitivity'];
 
-		$clean['geoip_provider'] = in_array( $input['geoip_provider'] ?? '', array( 'ip-api', 'maxmind' ), true )
+		$clean['geoip_provider'] = in_array( $input['geoip_provider'] ?? '', array( 'headers', 'ip-api', 'maxmind' ), true )
 			? $input['geoip_provider']
 			: $defaults['geoip_provider'];
+
+		$clean['digest_frequency'] = in_array( $input['digest_frequency'] ?? '', array( 'off', 'daily', 'weekly' ), true )
+			? $input['digest_frequency']
+			: $defaults['digest_frequency'];
 
 		// Integers (with sane floors).
 		$clean['retention_days']     = max( 0, absint( $input['retention_days'] ?? $defaults['retention_days'] ) );
@@ -206,6 +217,7 @@ class STD_Settings {
 		$clean['geoip_api_key'] = sanitize_text_field( $input['geoip_api_key'] ?? '' );
 		$clean['proxy_header']  = sanitize_text_field( $input['proxy_header'] ?? $defaults['proxy_header'] );
 		$clean['alert_email']   = sanitize_email( $input['alert_email'] ?? '' );
+		$clean['digest_email']  = sanitize_email( $input['digest_email'] ?? '' );
 
 		// Textareas (kept as text; parsed into arrays at read time).
 		$clean['whitelist_ips']       = self::sanitize_list_field( $input['whitelist_ips'] ?? '', 'ip' );

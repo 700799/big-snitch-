@@ -106,6 +106,105 @@ class STD_Metrics {
 	}
 
 	/**
+	 * Scheduled digest cron callback. Emails a security summary at the
+	 * configured cadence (daily/weekly).
+	 *
+	 * @return void
+	 */
+	public static function send_digest() {
+		$freq = STD_Settings::get( 'digest_frequency', 'off' );
+		if ( 'off' === $freq ) {
+			return;
+		}
+
+		$window  = ( 'weekly' === $freq ) ? 7 * DAY_IN_SECONDS : DAY_IN_SECONDS;
+		$summary = self::get_summary( true );
+
+		$top_ips = STD_Logger::top( 'traffic', 'ip', $window, 5 );
+		$top_cc  = STD_Logger::top( 'traffic', 'country', $window, 5 );
+
+		$to = STD_Settings::get( 'digest_email' );
+		if ( ! is_email( $to ) ) {
+			$to = get_option( 'admin_email' );
+		}
+
+		$site    = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+		$subject = sprintf(
+			/* translators: 1: cadence (daily/weekly), 2: site name. */
+			__( '[%2$s] SecureTraffic %1$s security digest', 'secure-traffic-dashboard' ),
+			$freq,
+			$site
+		);
+
+		// Plain-text body (deliverable everywhere, no markup dependency).
+		$lines   = array();
+		$lines[] = sprintf(
+			/* translators: %s: site name. */
+			__( 'Security digest for %s', 'secure-traffic-dashboard' ),
+			$site
+		);
+		$lines[] = str_repeat( '=', 48 );
+		$lines[] = '';
+		/* translators: %d: number of requests. */
+		$lines[] = sprintf( __( 'Requests (24h): %d', 'secure-traffic-dashboard' ), (int) $summary['requests_24h'] );
+		/* translators: %d: number of blocked events. */
+		$lines[] = sprintf( __( 'Blocked (24h): %d', 'secure-traffic-dashboard' ), (int) $summary['blocked_24h'] );
+		/* translators: %d: number of failed logins. */
+		$lines[] = sprintf( __( 'Failed logins (24h): %d', 'secure-traffic-dashboard' ), (int) $summary['logins_failed_24h'] );
+		/* translators: %d: number of successful logins. */
+		$lines[] = sprintf( __( 'Successful logins (24h): %d', 'secure-traffic-dashboard' ), (int) $summary['logins_ok_24h'] );
+		/* translators: %d: number of active blocks. */
+		$lines[] = sprintf( __( 'Active blocks: %d', 'secure-traffic-dashboard' ), (int) $summary['active_blocks'] );
+		$lines[] = '';
+
+		if ( $top_ips ) {
+			$lines[] = __( 'Top source IPs:', 'secure-traffic-dashboard' );
+			foreach ( $top_ips as $row ) {
+				$lines[] = '  ' . $row->label . ' — ' . $row->total;
+			}
+			$lines[] = '';
+		}
+
+		if ( $top_cc ) {
+			$lines[] = __( 'Top countries:', 'secure-traffic-dashboard' );
+			foreach ( $top_cc as $row ) {
+				$lines[] = '  ' . $row->label . ' — ' . $row->total;
+			}
+			$lines[] = '';
+		}
+
+		$lines[] = __( 'Open the dashboard:', 'secure-traffic-dashboard' );
+		$lines[] = admin_url( 'admin.php?page=secure-traffic-dashboard' );
+
+		wp_mail( $to, $subject, implode( "\n", $lines ) );
+	}
+
+	/**
+	 * Reschedule the digest cron when settings change. Hooked to the settings
+	 * option update so a frequency change takes effect immediately.
+	 *
+	 * @return void
+	 */
+	public static function reschedule_digest() {
+		wp_clear_scheduled_hook( 'std_digest' );
+
+		$freq = STD_Settings::get( 'digest_frequency', 'off' );
+		if ( 'off' === $freq ) {
+			return;
+		}
+
+		$recurrence = ( 'weekly' === $freq ) ? 'weekly' : 'daily';
+
+		// WordPress ships a 'weekly' schedule since 5.4; fall back to daily.
+		$schedules = wp_get_schedules();
+		if ( ! isset( $schedules[ $recurrence ] ) ) {
+			$recurrence = 'daily';
+		}
+
+		wp_schedule_event( time() + HOUR_IN_SECONDS, $recurrence, 'std_digest' );
+	}
+
+	/**
 	 * Daily purge cron callback. Honours the retention setting.
 	 *
 	 * @return void

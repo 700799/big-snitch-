@@ -13,15 +13,19 @@ impact**.
 
 | Area | What you get |
 |------|--------------|
-| **Dashboard** | Tabbed UI: Overview, Traffic, Login Attempts, Analytics, Mitigation, Reports |
+| **Zero dependencies** | No third-party runtime code, no CDN, no tile service — in-house canvas charts + a self-drawn world map |
+| **Dashboard** | Tabbed UI: Overview, Traffic, Login Attempts, Analytics, Mitigation, Reports, Status |
 | **Logging** | Custom tables for traffic, logins, blocks and metrics; prepared queries; pagination |
-| **GeoIP** | Pluggable provider — free `ip-api.com` default, optional MaxMind GeoLite2 |
-| **Analytics** | Chart.js time-series (24h/7d/30d), top IPs/countries/endpoints, Leaflet origin map |
+| **GeoIP** | Offline-first via CDN/proxy country headers; optional `ip-api.com` / MaxMind providers (off by default) |
+| **Analytics** | In-house time-series charts (24h/7d/30d), top IPs/countries/endpoints, dot-grid origin map |
 | **Mitigation** | IP/country blocking, brute-force lockout, rate limiting, conservative bad-pattern firewall |
+| **Status** | 0–100 security posture score with prioritized recommendations |
 | **Impact** | Before/after failed-login comparison with % reduction |
-| **Reports** | CSV / JSON export of any dataset |
+| **Reports** | Branded printable report (Print→PDF), scheduled email digest, CSV / JSON export |
+| **UX** | Toasts, loading skeletons, empty states, help tips, multi-step wizard, "At a glance" widget, dark mode |
 | **Safety** | Monitor-only mode by default, IP/country whitelists, configurable retention with auto-purge |
 | **Hardening** | Custom capability, nonce + capability + rate-limit on every AJAX call, escaped output |
+| **Tooling** | PHPUnit tests, WPCS ruleset, GitHub Actions CI, `.pot` template |
 
 ## Architecture
 
@@ -120,14 +124,34 @@ add_action( 'std_render_tab_custom', function ( $settings ) {
 } );
 ```
 
-## Development notes
+## Development & tooling
 
-- **PHP lint:** `find . -name '*.php' -print0 | xargs -0 -n1 php -l`
-- **Coding standards:** WordPress-Core/WordPress-Extra (PHPCS). Sanitize on
-  input, escape on output, prepared SQL everywhere.
-- **Vendored libraries** are fetched from the npm registry (Chart.js, Leaflet)
-  and committed under `assets/vendor/` so the plugin works offline and complies
-  with WordPress.org guidelines (no runtime CDN).
+The shipped plugin contains **zero third-party runtime code**. The visualizations
+are our own vanilla-JS canvas modules:
+
+- `assets/js/std-charts.js` — `STDCharts.line/bar/sparkline`
+- `assets/js/std-geomap.js` — `STDGeo.map` (equirectangular dot-grid + country bubbles)
+
+Dev tooling lives in a dev-only `composer.json` (`vendor/` is gitignored and
+never shipped):
+
+```bash
+composer install            # install PHPUnit + PHPCS + WPCS (dev only)
+
+composer test               # PHPUnit unit tests (tests/)
+composer phpcs              # WordPress Coding Standards (phpcs.xml.dist)
+composer lint               # php -l across the codebase
+php bin/make-pot.php . languages/secure-traffic-dashboard.pot   # regenerate the .pot
+```
+
+The unit tests are deliberately lightweight: `tests/bootstrap.php` shims just
+enough WordPress functions to exercise the pure logic (IP/CIDR matching, settings
+sanitization, header-based geolocation, firewall signatures) without standing up
+the full WP test suite. GitHub Actions (`.github/workflows/ci.yml`) runs `php -l`
+(PHP 7.2–8.4), PHPCS, PHPUnit and a JS syntax check on every push and PR.
+
+- **Coding standards:** WordPress-Extra + PHPCompatibilityWP (PHP 7.2+). Sanitize
+  on input, escape on output, prepared SQL everywhere.
 
 See `readme.txt` for the user-facing installation guide, FAQ, conflicts and
 testing steps.

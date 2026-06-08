@@ -29,6 +29,7 @@ $tab_labels = array(
 	'analytics'  => array( 'dashicons-chart-area', __( 'Analytics', 'secure-traffic-dashboard' ) ),
 	'mitigation' => array( 'dashicons-shield', __( 'Mitigation', 'secure-traffic-dashboard' ) ),
 	'reports'    => array( 'dashicons-analytics', __( 'Reports', 'secure-traffic-dashboard' ) ),
+	'status'     => array( 'dashicons-heart', __( 'Status', 'secure-traffic-dashboard' ) ),
 );
 ?>
 <div class="wrap std-wrap">

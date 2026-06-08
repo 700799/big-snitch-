@@ -3,7 +3,7 @@
  * Plugin Name:       SecureTraffic Dashboard
  * Plugin URI:        https://example.com/secure-traffic-dashboard
  * Description:       A comprehensive admin dashboard to monitor inbound traffic and login attempts, geolocate request origins, apply mitigations (IP/country blocking, rate limiting, login lockdown, basic firewall) and measure the before/after security impact.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 5.6
  * Requires PHP:      7.2
  * Author:            SecureTraffic
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * ---------------------------------------------------------------------------
  */
 
-define( 'STD_VERSION', '1.0.0' );
+define( 'STD_VERSION', '1.1.0' );
 
 /**
  * Database schema version. Bump this when the table structure changes so the
@@ -56,13 +56,13 @@ define( 'STD_CAPABILITY', 'manage_secure_traffic' );
  * Avoids a Composer dependency while keeping one class per file.
  */
 spl_autoload_register(
-	function ( $class ) {
-		if ( 0 !== strpos( $class, 'STD_' ) ) {
+	function ( $class_name ) {
+		if ( 0 !== strpos( $class_name, 'STD_' ) ) {
 			return;
 		}
 
 		// STD_Login_Monitor -> class-std-login-monitor.php
-		$file = 'class-' . strtolower( str_replace( '_', '-', $class ) ) . '.php';
+		$file = 'class-' . strtolower( str_replace( '_', '-', $class_name ) ) . '.php';
 		$path = STD_PLUGIN_DIR . 'includes/' . $file;
 
 		if ( is_readable( $path ) ) {

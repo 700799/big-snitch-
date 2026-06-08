@@ -37,9 +37,9 @@ class STD_Helpers {
 	 * @return string A validated IP address, or an empty string if none found.
 	 */
 	public static function get_client_ip() {
-		$settings   = STD_Settings::get_settings();
-		$remote     = isset( $_SERVER['REMOTE_ADDR'] ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '';
-		$remote     = self::validate_ip( $remote );
+		$settings = STD_Settings::get_settings();
+		$remote   = isset( $_SERVER['REMOTE_ADDR'] ) ? wp_unslash( $_SERVER['REMOTE_ADDR'] ) : '';
+		$remote   = self::validate_ip( $remote );
 
 		if ( empty( $settings['trust_proxy'] ) ) {
 			return $remote;
@@ -151,6 +151,21 @@ class STD_Helpers {
 	 */
 	public static function is_static_asset( $uri ) {
 		return (bool) preg_match( '/\.(?:css|js|png|jpe?g|gif|svg|webp|ico|woff2?|ttf|eot|map)(?:\?.*)?$/i', $uri );
+	}
+
+	/**
+	 * Render an accessible contextual help tooltip (a "?" marker with a title).
+	 *
+	 * Output is escaped and safe to echo directly. The tooltip text is exposed
+	 * both as a native `title` and via `aria-label` for screen readers.
+	 *
+	 * @param string $text Help text.
+	 * @return string HTML for the help tip.
+	 */
+	public static function help_tip( $text ) {
+		$text = wp_strip_all_tags( $text );
+		return '<span class="std-help-tip dashicons dashicons-editor-help" tabindex="0" role="img" aria-label="'
+			. esc_attr( $text ) . '" title="' . esc_attr( $text ) . '"></span>';
 	}
 
 	/**
