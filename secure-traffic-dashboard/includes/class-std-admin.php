@@ -164,17 +164,15 @@ class STD_Admin {
 			return;
 		}
 
-		// In-house, dependency-free visualization modules (no third-party code).
-		wp_enqueue_script( 'std-charts', STD_PLUGIN_URL . 'assets/js/std-charts.js', array(), STD_VERSION, true );
-
+		// The "At a glance" widget needs only the stylesheet for its layout.
 		wp_enqueue_style( 'std-admin', STD_PLUGIN_URL . 'assets/css/admin.css', array(), STD_VERSION );
 
 		if ( $is_wp_dash && ! $is_our_screen ) {
-			// Lightweight footprint for the dashboard widget only.
 			return;
 		}
 
-		// In-house map module + main admin script for our screens.
+		// In-house, dependency-free visualization modules (no third-party code).
+		wp_enqueue_script( 'std-charts', STD_PLUGIN_URL . 'assets/js/std-charts.js', array(), STD_VERSION, true );
 		wp_enqueue_script( 'std-geomap', STD_PLUGIN_URL . 'assets/js/std-geomap.js', array(), STD_VERSION, true );
 		wp_enqueue_script(
 			'std-admin',

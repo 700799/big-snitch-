@@ -323,11 +323,14 @@
 	 * @param {HTMLCanvasElement} canvas
 	 */
 	function bindHover( canvas ) {
-		var meta = canvas._std;
-		if ( ! meta || meta.type !== 'line' ) { return; }
+		if ( ! canvas._std || canvas._std.type !== 'line' ) { return; }
 
 		var tip = ensureTooltip();
 		canvas.onmousemove = function ( e ) {
+			// Read geometry fresh each move: renderLine() replaces canvas._std on
+			// every redraw (including resize), so a captured reference goes stale.
+			var meta = canvas._std;
+			if ( ! meta || meta.type !== 'line' ) { return; }
 			var rect = canvas.getBoundingClientRect();
 			var x = e.clientX - rect.left;
 			var labels = meta.cfg.labels || [];
@@ -366,6 +369,8 @@
 		};
 		canvas.onmouseleave = function () {
 			tip.style.display = 'none';
+			var meta = canvas._std;
+			if ( ! meta ) { return; }
 			meta.cfg._progress = 1;
 			renderLine( canvas, meta.cfg );
 		};
