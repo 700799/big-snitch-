@@ -104,14 +104,14 @@ class STD_Traffic_Monitor {
 	 *
 	 * Fires via the core `http_api_debug` action after every wp_remote_* call.
 	 *
-	 * @param array|WP_Error $response HTTP response or error.
-	 * @param string         $context  Context ('response').
-	 * @param string         $class    Transport class.
-	 * @param array          $args     Request args.
-	 * @param string         $url      Target URL.
+	 * @param array|WP_Error $response  HTTP response or error.
+	 * @param string         $context   Context ('response').
+	 * @param string         $transport Transport class name (unused).
+	 * @param array          $args      Request args.
+	 * @param string         $url       Target URL.
 	 * @return void
 	 */
-	public function log_outbound( $response, $context, $class, $args, $url ) {
+	public function log_outbound( $response, $context, $transport, $args, $url ) {
 		// Only record the completed response context, not retries.
 		if ( 'response' !== $context ) {
 			return;

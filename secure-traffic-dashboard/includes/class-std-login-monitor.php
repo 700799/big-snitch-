@@ -25,7 +25,7 @@ class STD_Login_Monitor {
 			return;
 		}
 
-		add_action( 'wp_login', array( $this, 'on_success' ), 10, 2 );
+		add_action( 'wp_login', array( $this, 'on_success' ), 10, 1 );
 		add_action( 'wp_login_failed', array( $this, 'on_failure' ), 10, 1 );
 
 		// Block the login attempt outright if the IP is locked out / blocked,
@@ -36,11 +36,10 @@ class STD_Login_Monitor {
 	/**
 	 * Record a successful login.
 	 *
-	 * @param string  $user_login Username.
-	 * @param WP_User $user       Authenticated user object.
+	 * @param string $user_login Username.
 	 * @return void
 	 */
-	public function on_success( $user_login, $user = null ) {
+	public function on_success( $user_login ) {
 		$ip  = STD_Helpers::get_client_ip();
 		$geo = STD_GeoIP::lookup( $ip );
 

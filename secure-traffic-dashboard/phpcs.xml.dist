@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<ruleset name="SecureTraffic Dashboard">
+	<description>Coding standards for the SecureTraffic Dashboard plugin.</description>
+
+	<!-- Scan the plugin source, excluding build/test/asset directories. -->
+	<file>.</file>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/tests/*</exclude-pattern>
+	<exclude-pattern>*/assets/*</exclude-pattern>
+	<exclude-pattern>*/languages/*</exclude-pattern>
+	<exclude-pattern>*/bin/*</exclude-pattern>
+
+	<arg value="ps"/>
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+
+	<!-- WordPress coding standards (Extra includes Core + best practices). -->
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress.WP.I18n"/>
+
+	<!-- Enforce our text domain. -->
+	<config name="text_domain" value="secure-traffic-dashboard"/>
+
+	<!-- Enforce our global prefixes for functions, hooks, classes, options. -->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="STD_"/>
+				<element value="std_"/>
+			</property>
+		</properties>
+		<!-- View partials are included within controller methods, so their
+		     variables are method-scoped, not global, despite static analysis
+		     treating an included file as global scope. -->
+		<exclude-pattern>*/includes/views/*</exclude-pattern>
+	</rule>
+
+	<!-- Same rationale: template locals are not WordPress globals. -->
+	<rule ref="WordPress.WP.GlobalVariablesOverride.Prohibited">
+		<exclude-pattern>*/includes/views/*</exclude-pattern>
+	</rule>
+
+	<!-- Minimum supported versions. -->
+	<config name="minimum_supported_wp_version" value="5.6"/>
+	<config name="testVersion" value="7.2-"/>
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>

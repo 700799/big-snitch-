@@ -190,9 +190,24 @@ class STD_Firewall {
 	 * @return bool True if a signature matched.
 	 */
 	private static function matches_bad_pattern() {
-		$uri   = rawurldecode( STD_Helpers::get_request_uri() );
-		$query = isset( $_SERVER['QUERY_STRING'] ) ? rawurldecode( wp_unslash( $_SERVER['QUERY_STRING'] ) ) : '';
-		$haystack = strtolower( $uri . ' ' . $query );
+		$uri      = rawurldecode( STD_Helpers::get_request_uri() );
+		$query    = isset( $_SERVER['QUERY_STRING'] ) ? rawurldecode( wp_unslash( $_SERVER['QUERY_STRING'] ) ) : '';
+		$haystack = $uri . ' ' . $query;
+
+		return self::is_bad_pattern( $haystack );
+	}
+
+	/**
+	 * Test an arbitrary string against the firewall's bad-pattern signatures.
+	 *
+	 * Extracted from the request-time check so it is unit-testable and reusable.
+	 * Deliberately conservative to limit false positives.
+	 *
+	 * @param string $haystack String to inspect (e.g. a URI + query string).
+	 * @return bool True if a signature matched.
+	 */
+	public static function is_bad_pattern( $haystack ) {
+		$haystack = strtolower( (string) $haystack );
 
 		/**
 		 * Filter the firewall signature list.

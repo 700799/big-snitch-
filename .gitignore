@@ -1,0 +1,20 @@
+# Dependencies (dev-only build tooling — never shipped to a site)
+/vendor/
+/secure-traffic-dashboard/vendor/
+composer.lock
+
+# Node (only used for local linting, if any)
+/node_modules/
+
+# Test / coverage artifacts
+/secure-traffic-dashboard/.phpunit.result.cache
+.phpunit.result.cache
+/coverage/
+clover.xml
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

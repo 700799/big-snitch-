@@ -73,13 +73,14 @@ function std_uninstall_site() {
 	// Clear any scheduled events (belt and braces; deactivation also does this).
 	wp_clear_scheduled_hook( 'std_aggregate' );
 	wp_clear_scheduled_hook( 'std_purge' );
+	wp_clear_scheduled_hook( 'std_digest' );
 }
 
 // Run cleanup across the network on multisite, or just the current site.
 if ( is_multisite() ) {
-	$site_ids = get_sites( array( 'fields' => 'ids' ) );
-	foreach ( $site_ids as $site_id ) {
-		switch_to_blog( $site_id );
+	$std_site_ids = get_sites( array( 'fields' => 'ids' ) );
+	foreach ( $std_site_ids as $std_site_id ) {
+		switch_to_blog( $std_site_id );
 		std_uninstall_site();
 		restore_current_blog();
 	}

@@ -4,7 +4,7 @@ Tags: security, firewall, login security, traffic, monitoring, brute force, geoi
 Requires at least: 5.6
 Tested up to: 6.5
 Requires PHP: 7.2
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,16 +16,19 @@ SecureTraffic Dashboard gives you a single, clean admin screen (WP Admin → Sec
 
 **Core features**
 
-* **Unified dashboard** with tabs: Overview, Traffic, Login Attempts, Analytics, Mitigation, Reports.
+* **Zero dependencies** – all charts and the world map are drawn by in-house canvas modules. No third-party libraries, no external CDN, no map tile service.
+* **Unified dashboard** with tabs: Overview, Traffic, Login Attempts, Analytics, Mitigation, Reports and Status.
 * **Inbound traffic logging** – IP, method, URL, user agent, status code, referer, with searchable/filterable, paginated tables.
 * **Login attempt logging** – successful and failed logins, usernames tried, IPs, timestamps and geolocation.
-* **Frequency analytics** – charts for the last 24h / 7 days / 30 days, plus top IPs, top countries and most-targeted endpoints, and a world map of origins.
-* **Geolocation** – pluggable GeoIP with a free ip-api.com default (no key) or optional MaxMind GeoLite2 via API key. Lookups are cached for up to a month.
+* **Frequency analytics** – in-house charts for the last 24h / 7 days / 30 days, plus top IPs, top countries and most-targeted endpoints, and a self-drawn world map of origins.
+* **Offline-first geolocation** – country is read from CDN/proxy headers (Cloudflare, CloudFront, …) with no external request; optional ip-api.com / MaxMind providers are off by default.
 * **Mitigation & firewall** – block IPs (temporary/permanent), block countries, brute-force lockout, rate limiting, and conservative bad-pattern rules (SQLi/XSS/traversal). One-click block/unblock from the dashboard.
+* **Security posture (Status tab)** – a 0–100 score with prioritized, actionable recommendations.
 * **Recommendations panel** – actionable breach-avoidance advice (2FA, strong passwords, updates, hiding the login URL, Cloudflare, backups).
 * **Before & after impact** – tracks failed logins before vs. after you enable mitigation and shows the percentage reduction.
-* **Exportable reports** – download traffic, logins and blocks as CSV or JSON.
+* **Reporting** – branded printable report (Print / Save as PDF), scheduled email digest (daily/weekly), and CSV / JSON export.
 * **Email alerts** – get notified when failed-login activity exceeds a threshold.
+* **Polished UX** – toast notifications, loading skeletons, empty states, contextual help tips, a multi-step quick-start wizard, an "At a glance" dashboard widget, and dark-mode-friendly styling.
 * **Monitor-only mode (default)** – logs everything but blocks nothing until you are confident, keeping false positives at zero.
 
 **Performance & safety**
@@ -45,8 +48,9 @@ SecureTraffic Dashboard gives you a single, clean admin screen (WP Admin → Sec
 
 **GeoIP setup**
 
-* The default provider, **ip-api.com**, works immediately with no configuration (free, rate-limited).
-* For higher accuracy, create a free **MaxMind GeoLite2** account at maxmind.com, generate a license key, and enter it in Settings as `accountId:licenseKey` while selecting the MaxMind provider.
+* The default mode, **Headers only**, is fully offline: if your site is behind a CDN/proxy that sets a country header (e.g. Cloudflare's `CF-IPCountry`), that value is used instantly with no external request. Nothing to configure.
+* Optionally, you can select an external provider for sites without a country header: **ip-api.com** (free, no key) or **MaxMind GeoLite2** (create a free account at maxmind.com and enter the key as `accountId:licenseKey`). These are off by default.
+* Note: bundled offline GeoIP *databases* carry their own license/EULA, which is why none is shipped — the offline option relies on request headers instead.
 
 == Frequently Asked Questions ==
 
@@ -79,19 +83,33 @@ Events live in four custom tables (`{prefix}std_traffic`, `std_logins`, `std_blo
 
 == Changelog ==
 
+= 1.1.0 =
+* Now 100% dependency-free: removed Chart.js, Leaflet and the OpenStreetMap tile service. Charts and the world map are rendered by our own lightweight, in-house canvas modules. No third-party code, no external CDN, no runtime tile requests.
+* Geolocation is offline-first: country is read from CDN/proxy headers (Cloudflare, CloudFront, etc.) with no external request. External API providers (ip-api, MaxMind) are now optional and off by default.
+* New Status tab with a security posture score and prioritized, actionable recommendations.
+* New scheduled email digest (daily/weekly) summarising activity.
+* New branded, printable report page (Print / Save as PDF — no PDF library).
+* New "At a glance" widget on the main WordPress dashboard.
+* Redesigned UI: toast notifications, loading skeletons, empty states, contextual help tips, a custom menu icon and a multi-step quick-start wizard.
+* Developer tooling: PHPUnit test suite, WordPress Coding Standards (phpcs) ruleset, GitHub Actions CI, and a translation template (.pot).
+
 = 1.0.0 =
 * Initial release: dashboard, traffic & login logging, GeoIP, analytics, firewall/mitigation, before/after reports, CSV/JSON export, email alerts, quick-start wizard.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Dependency-free release: in-house charts/map replace Chart.js and Leaflet, and geolocation is now offline-first. No action required; review the new Status tab and Scheduled Digest settings.
 
 = 1.0.0 =
 Initial release.
 
 == Third-party libraries ==
 
-This plugin bundles the following open-source libraries locally (no external CDN):
+None. As of 1.1.0 the plugin ships with ZERO third-party runtime code — all charts and the
+geographic map are rendered by in-house, dependency-free modules. No external CDN or tile service is
+contacted. (Development-only tools such as PHPUnit and PHP_CodeSniffer are listed in composer.json
+under require-dev and are never shipped to your site.)
 
-* Chart.js 4.4.1 — MIT License — https://www.chartjs.org/
-* Leaflet 1.9.4 — BSD-2-Clause License — https://leafletjs.com/
-
-Map tiles are served by OpenStreetMap (https://www.openstreetmap.org/copyright) only when you open the Analytics map.
+Geolocation is offline-first via CDN/proxy request headers. The optional external GeoIP providers
+(ip-api.com, MaxMind GeoLite2) are off by default and only contacted if you explicitly enable them.

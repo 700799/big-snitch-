@@ -2,7 +2,7 @@
 /**
  * Analytics tab: time-series charts, top IPs / countries / endpoints and a
  * world map of request origins. Data is loaded via AJAX and rendered with the
- * bundled Chart.js and Leaflet libraries.
+ * plugin's in-house, dependency-free STDCharts and STDGeo canvas modules.
  *
  * @package SecureTraffic_Dashboard
  */
@@ -54,6 +54,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<h3><?php esc_html_e( 'Where requests come from', 'secure-traffic-dashboard' ); ?></h3>
 	<div id="std-map" class="std-map"></div>
 	<p class="description">
-		<?php esc_html_e( 'Markers are approximate, based on the country of each top source. Enable GeoIP in Settings for richer location data.', 'secure-traffic-dashboard' ); ?>
+		<?php esc_html_e( 'Bubbles are positioned at each country’s approximate centroid and sized by request volume. Enable GeoIP in Settings for richer location data.', 'secure-traffic-dashboard' ); ?>
 	</p>
 </div>

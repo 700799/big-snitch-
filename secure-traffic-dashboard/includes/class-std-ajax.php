@@ -14,6 +14,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/*
+ * Every public handler in this class calls $this->guard() as its first
+ * statement, which runs check_ajax_referer() (nonce verification) and the
+ * capability + rate-limit checks before any superglobal is read. PHPCS cannot
+ * trace that cross-method guarantee, so the nonce-verification sniffs are
+ * disabled file-wide here with that documented justification.
+ */
+// phpcs:disable WordPress.Security.NonceVerification.Missing
+// phpcs:disable WordPress.Security.NonceVerification.Recommended
+
 /**
  * AJAX controller.
  */

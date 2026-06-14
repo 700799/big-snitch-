@@ -54,6 +54,11 @@ class STD_Plugin {
 		// Cron callbacks.
 		add_action( 'std_aggregate', array( 'STD_Metrics', 'aggregate' ) );
 		add_action( 'std_purge', array( 'STD_Metrics', 'purge' ) );
+		add_action( 'std_digest', array( 'STD_Metrics', 'send_digest' ) );
+
+		// Keep the digest schedule in sync with the settings.
+		add_action( 'update_option_' . STD_Settings::OPTION, array( 'STD_Metrics', 'reschedule_digest' ) );
+		add_action( 'add_option_' . STD_Settings::OPTION, array( 'STD_Metrics', 'reschedule_digest' ) );
 
 		// Firewall: evaluate the request as early as possible. run() already
 		// fires on plugins_loaded, so we evaluate immediately for front-end

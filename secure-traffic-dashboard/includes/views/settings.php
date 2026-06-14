@@ -94,18 +94,22 @@ $checkbox = function ( $key, $label, $settings, $opt, $desc = '' ) {
 		<div class="std-panel">
 			<h2><?php esc_html_e( 'GeoIP', 'secure-traffic-dashboard' ); ?></h2>
 			<?php $checkbox( 'geoip_enabled', __( 'Enable geolocation lookups', 'secure-traffic-dashboard' ), $settings, $opt ); ?>
+			<?php $checkbox( 'geoip_trust_headers', __( 'Use CDN/proxy country headers when available (offline, instant)', 'secure-traffic-dashboard' ), $settings, $opt, __( 'Reads headers like Cloudflare CF-IPCountry or CloudFront-Viewer-Country. No external request, no data to bundle.', 'secure-traffic-dashboard' ) ); ?>
 			<p>
-				<label for="std-geoprovider"><strong><?php esc_html_e( 'Provider', 'secure-traffic-dashboard' ); ?></strong></label><br />
+				<label for="std-geoprovider"><strong><?php esc_html_e( 'Provider', 'secure-traffic-dashboard' ); ?></strong></label>
+				<?php echo STD_Helpers::help_tip( __( 'Offline-first. "Headers only" makes no external requests. The external providers are optional and only used when a country header is not present.', 'secure-traffic-dashboard' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- help_tip returns escaped HTML. ?>
+				<br />
 				<select id="std-geoprovider" name="<?php echo esc_attr( $opt . '[geoip_provider]' ); ?>">
-					<option value="ip-api" <?php selected( $settings['geoip_provider'], 'ip-api' ); ?>><?php esc_html_e( 'ip-api.com (free, no key)', 'secure-traffic-dashboard' ); ?></option>
-					<option value="maxmind" <?php selected( $settings['geoip_provider'], 'maxmind' ); ?>><?php esc_html_e( 'MaxMind GeoLite2 (API key)', 'secure-traffic-dashboard' ); ?></option>
+					<option value="headers" <?php selected( $settings['geoip_provider'], 'headers' ); ?>><?php esc_html_e( 'Headers only (offline, no external requests)', 'secure-traffic-dashboard' ); ?></option>
+					<option value="ip-api" <?php selected( $settings['geoip_provider'], 'ip-api' ); ?>><?php esc_html_e( 'ip-api.com (free external API, no key)', 'secure-traffic-dashboard' ); ?></option>
+					<option value="maxmind" <?php selected( $settings['geoip_provider'], 'maxmind' ); ?>><?php esc_html_e( 'MaxMind GeoLite2 (external API key)', 'secure-traffic-dashboard' ); ?></option>
 				</select>
 			</p>
 			<p>
 				<label for="std-geokey"><strong><?php esc_html_e( 'MaxMind key (accountId:licenseKey)', 'secure-traffic-dashboard' ); ?></strong></label><br />
 				<input type="text" id="std-geokey" class="regular-text" name="<?php echo esc_attr( $opt . '[geoip_api_key]' ); ?>"
 					value="<?php echo esc_attr( $settings['geoip_api_key'] ); ?>" autocomplete="off" />
-				<span class="description"><?php esc_html_e( 'Free GeoLite2 keys: sign up at maxmind.com. Leave blank to use ip-api.com.', 'secure-traffic-dashboard' ); ?></span>
+				<span class="description"><?php esc_html_e( 'Only needed for the MaxMind provider. Offline GeoIP databases carry their own license/EULA, so none is bundled — the offline option uses request headers instead.', 'secure-traffic-dashboard' ); ?></span>
 			</p>
 		</div>
 
@@ -147,6 +151,24 @@ $checkbox = function ( $key, $label, $settings, $opt, $desc = '' ) {
 				<label for="std-alert-email"><strong><?php esc_html_e( 'Alert email', 'secure-traffic-dashboard' ); ?></strong></label><br />
 				<input type="email" id="std-alert-email" class="regular-text" name="<?php echo esc_attr( $opt . '[alert_email]' ); ?>"
 					value="<?php echo esc_attr( $settings['alert_email'] ); ?>" placeholder="<?php echo esc_attr( get_option( 'admin_email' ) ); ?>" />
+			</p>
+		</div>
+
+		<div class="std-panel">
+			<h2><?php esc_html_e( 'Scheduled Digest', 'secure-traffic-dashboard' ); ?></h2>
+			<p>
+				<label for="std-digest-freq"><strong><?php esc_html_e( 'Send a summary report', 'secure-traffic-dashboard' ); ?></strong></label><br />
+				<select id="std-digest-freq" name="<?php echo esc_attr( $opt . '[digest_frequency]' ); ?>">
+					<option value="off" <?php selected( $settings['digest_frequency'], 'off' ); ?>><?php esc_html_e( 'Off', 'secure-traffic-dashboard' ); ?></option>
+					<option value="daily" <?php selected( $settings['digest_frequency'], 'daily' ); ?>><?php esc_html_e( 'Daily', 'secure-traffic-dashboard' ); ?></option>
+					<option value="weekly" <?php selected( $settings['digest_frequency'], 'weekly' ); ?>><?php esc_html_e( 'Weekly', 'secure-traffic-dashboard' ); ?></option>
+				</select>
+			</p>
+			<p>
+				<label for="std-digest-email"><strong><?php esc_html_e( 'Digest recipient', 'secure-traffic-dashboard' ); ?></strong></label><br />
+				<input type="email" id="std-digest-email" class="regular-text" name="<?php echo esc_attr( $opt . '[digest_email]' ); ?>"
+					value="<?php echo esc_attr( $settings['digest_email'] ); ?>" placeholder="<?php echo esc_attr( get_option( 'admin_email' ) ); ?>" />
+				<span class="description"><?php esc_html_e( 'A periodic security summary (totals, top IPs and countries) emailed automatically.', 'secure-traffic-dashboard' ); ?></span>
 			</p>
 		</div>
 

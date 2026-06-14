@@ -1,0 +1,817 @@
+# Copyright (C) 2026 SecureTraffic
+# This file is distributed under the GPL-2.0-or-later license.
+msgid ""
+msgstr ""
+"Project-Id-Version: SecureTraffic Dashboard 1.1.0\n"
+"Report-Msgid-Bugs-To: https://example.com/support\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-06-08 08:03+0000\n"
+"Language-Team: SecureTraffic\n"
+"X-Domain: secure-traffic-dashboard\n"
+
+msgid "%s ago"
+msgstr ""
+
+msgid "0 = keep forever. Older events are auto-purged daily."
+msgstr ""
+
+msgid "24h"
+msgstr ""
+
+msgid "30 days"
+msgstr ""
+
+msgid "7 days"
+msgstr ""
+
+msgid "A periodic security summary (totals, top IPs and countries) emailed automatically."
+msgstr ""
+
+msgid "A quick assessment of your current configuration. Resolve the items on the right to raise your score."
+msgstr ""
+
+msgid "About outbound connections"
+msgstr ""
+
+msgid "Access Denied"
+msgstr ""
+
+msgid "Access from your location is temporarily blocked due to suspicious activity."
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Action needed"
+msgstr ""
+
+msgid "Active Blocks"
+msgstr ""
+
+msgid "Active blocks"
+msgstr ""
+
+msgid "Active blocks: %d"
+msgstr ""
+
+msgid "Active enforcement"
+msgstr ""
+
+msgid "Active enforcement (monitor-only off)"
+msgstr ""
+
+msgid "Activity (last 24 hours)"
+msgstr ""
+
+msgid "Adjust firewall settings"
+msgstr ""
+
+msgid "Admin IP whitelist"
+msgstr ""
+
+msgid "Alert email"
+msgstr ""
+
+msgid "All results"
+msgstr ""
+
+msgid "Allowed"
+msgstr ""
+
+msgid "Analytics"
+msgstr ""
+
+msgid "Arbitrary outbound traffic from other processes or raw sockets is invisible to PHP. For complete outbound visibility, use server-level logging such as your firewall/iptables logs, a reverse proxy (Nginx/Cloudflare) access log, or a host-based monitoring agent."
+msgstr ""
+
+msgid "At least one trusted IP is whitelisted and can never be blocked."
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Bad-pattern rules"
+msgstr ""
+
+msgid "Baseline captured on %s, when mitigation was first enabled."
+msgstr ""
+
+msgid "Before enabling enforcement, add your own IP address to the whitelist in Settings so you can never accidentally lock yourself out."
+msgstr ""
+
+msgid "Block Country"
+msgstr ""
+
+msgid "Block IP"
+msgstr ""
+
+msgid "Block a country"
+msgstr ""
+
+msgid "Block an IP address"
+msgstr ""
+
+msgid "Block known bad request patterns (SQLi/XSS/traversal)"
+msgstr ""
+
+msgid "Block removed."
+msgstr ""
+
+msgid "Block this IP address?"
+msgstr ""
+
+msgid "Blocked"
+msgstr ""
+
+msgid "Blocked (24h)"
+msgstr ""
+
+msgid "Blocked (24h): %d"
+msgstr ""
+
+msgid "Blocked (all time)"
+msgstr ""
+
+msgid "Blocked countries"
+msgstr ""
+
+msgid "Blocked only"
+msgstr ""
+
+msgid "Blocks"
+msgstr ""
+
+msgid "Blocks take effect immediately. Whitelisted IPs/countries are never blocked."
+msgstr ""
+
+msgid "Breach-avoidance recommendations"
+msgstr ""
+
+msgid "Brute-force lockout after %d failed logins"
+msgstr ""
+
+msgid "Brute-force protection"
+msgstr ""
+
+msgid "Brute-force protection is off. Turn it on to limit password-guessing attacks."
+msgstr ""
+
+msgid "Bubbles are positioned at each country’s approximate centroid and sized by request volume. Enable GeoIP in Settings for richer location data."
+msgstr ""
+
+msgid "CSV"
+msgstr ""
+
+msgid "Check the Status tab for a security score and prioritized recommendations, and enable the scheduled email digest to stay informed automatically."
+msgstr ""
+
+msgid "Consider defining DISALLOW_FILE_EDIT in wp-config.php to block in-dashboard code edits."
+msgstr ""
+
+msgid "Could not remove block."
+msgstr ""
+
+msgid "Country blocked."
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Dashboard file editing"
+msgstr ""
+
+msgid "Data & Cleanup"
+msgstr ""
+
+msgid "Data set"
+msgstr ""
+
+msgid "Delete all plugin data when the plugin is deleted"
+msgstr ""
+
+msgid "Digest recipient"
+msgstr ""
+
+msgid "Disable file editing in wp-admin (define DISALLOW_FILE_EDIT) and restrict file permissions."
+msgstr ""
+
+msgid "Dismiss"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download your logs for offline analysis or compliance records."
+msgstr ""
+
+msgid "Email Alerts"
+msgstr ""
+
+msgid "Email alerts"
+msgstr ""
+
+msgid "Email alerts are off. Enable them to be notified of attacks in real time."
+msgstr ""
+
+msgid "Enable brute-force login protection"
+msgstr ""
+
+msgid "Enable firewall"
+msgstr ""
+
+msgid "Enable geolocation lookups"
+msgstr ""
+
+msgid "Enable two-factor authentication (2FA) for all administrator accounts."
+msgstr ""
+
+msgid "Events are logged but no requests are blocked. Disable monitor-only mode in Settings once you are confident the rules are tuned correctly."
+msgstr ""
+
+msgid "Expires"
+msgstr ""
+
+msgid "Export reports"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "Failed Logins (24h)"
+msgstr ""
+
+msgid "Failed logins (24h)"
+msgstr ""
+
+msgid "Failed logins (24h): %d"
+msgstr ""
+
+msgid "Failed logins / 7d before mitigation"
+msgstr ""
+
+msgid "Failed logins / 7d now"
+msgstr ""
+
+msgid "Failed logins before mitigation: %1$s → after: %2$s (%3$s%% reduction)."
+msgstr ""
+
+msgid "Failed logins per 7 days fell from %1$s to %2$s — a %3$s%% reduction."
+msgstr ""
+
+msgid "Failed only"
+msgstr ""
+
+msgid "Finish"
+msgstr ""
+
+msgid "Firewall"
+msgstr ""
+
+msgid "Firewall & Brute-force"
+msgstr ""
+
+msgid "Firewall status"
+msgstr ""
+
+msgid "Forwarding header"
+msgstr ""
+
+msgid "General & Mode"
+msgstr ""
+
+msgid "Generated: %s"
+msgstr ""
+
+msgid "GeoIP"
+msgstr ""
+
+msgid "Geolocation"
+msgstr ""
+
+msgid "Geolocation is enabled (offline headers first, optional external provider)."
+msgstr ""
+
+msgid "Geolocation is off, so origin country data will be missing."
+msgstr ""
+
+msgid "Good"
+msgstr ""
+
+msgid "HTTPS"
+msgstr ""
+
+msgid "Headers only (offline, no external requests)"
+msgstr ""
+
+msgid "Hide or rename the default login URL (/wp-login.php) to cut automated brute-force noise."
+msgstr ""
+
+msgid "High (log everything)"
+msgstr ""
+
+msgid "IP"
+msgstr ""
+
+msgid "IP and country rules currently enforced."
+msgstr ""
+
+msgid "IP blocked."
+msgstr ""
+
+msgid "ISO code, e.g. RU"
+msgstr ""
+
+msgid "ISO-2 codes, one per line."
+msgstr ""
+
+msgid "ISO-2 codes, one per line. Requires GeoIP and enforcement (monitor-only off)."
+msgstr ""
+
+msgid "Inbound Traffic"
+msgstr ""
+
+msgid "Inbound traffic"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Invalid IP address."
+msgstr ""
+
+msgid "Invalid country code."
+msgstr ""
+
+msgid "JSON"
+msgstr ""
+
+msgid "Keep WordPress core, themes and plugins updated; remove anything unused."
+msgstr ""
+
+msgid "Limit login attempts (enabled here) and consider a CAPTCHA on the login form."
+msgstr ""
+
+msgid "Loading…"
+msgstr ""
+
+msgid "Lockout duration (seconds)"
+msgstr ""
+
+msgid "Log WordPress outbound HTTP requests"
+msgstr ""
+
+msgid "Log inbound traffic"
+msgstr ""
+
+msgid "Log login attempts"
+msgstr ""
+
+msgid "Log retention"
+msgstr ""
+
+msgid "Log retention (days)"
+msgstr ""
+
+msgid "Logging sensitivity"
+msgstr ""
+
+msgid "Login Attempts"
+msgstr ""
+
+msgid "Login attempts"
+msgstr ""
+
+msgid "Login attempts over time"
+msgstr ""
+
+msgid "Low (skip assets & admin browsing)"
+msgstr ""
+
+msgid "Lower sensitivity reduces noise and database growth."
+msgstr ""
+
+msgid "Manually blocked from dashboard"
+msgstr ""
+
+msgid "Max failed attempts"
+msgstr ""
+
+msgid "MaxMind GeoLite2 (external API key)"
+msgstr ""
+
+msgid "MaxMind key (accountId:licenseKey)"
+msgstr ""
+
+msgid "Medium (skip static assets)"
+msgstr ""
+
+msgid "Method"
+msgstr ""
+
+msgid "Mitigation"
+msgstr ""
+
+msgid "Mitigation impact"
+msgstr ""
+
+msgid "Monitor-only mode (log events but never block)"
+msgstr ""
+
+msgid "Monitor-only mode is active."
+msgstr ""
+
+msgid "Monitor-only mode is on — nothing is being blocked yet. Disable it in Settings once your rules are tuned."
+msgstr ""
+
+msgid "Most Targeted Endpoints"
+msgstr ""
+
+msgid "Most targeted endpoints"
+msgstr ""
+
+msgid "Network & Whitelists"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "No IPs are whitelisted. Add your own IP in Settings so you cannot be locked out."
+msgstr ""
+
+msgid "No active blocks."
+msgstr ""
+
+msgid "No baseline yet. The before/after comparison is captured automatically the first time you apply a mitigation (block an IP/country or disable monitor-only mode)."
+msgstr ""
+
+msgid "No data for this period."
+msgstr ""
+
+msgid "No data."
+msgstr ""
+
+msgid "Note: Monitor-only mode is on, so new blocks are recorded but not enforced until you turn it off in Settings."
+msgstr ""
+
+msgid "Off"
+msgstr ""
+
+msgid "Offline-first. \"Headers only\" makes no external requests. The external providers are optional and only used when a country header is not present."
+msgstr ""
+
+msgid "Old events are auto-purged after %d days."
+msgstr ""
+
+msgid "One per line. These are never blocked."
+msgstr ""
+
+msgid "Only enable if your site is genuinely behind a trusted proxy — otherwise client IPs can be spoofed."
+msgstr ""
+
+msgid "Only needed for the MaxMind provider. Offline GeoIP databases carry their own license/EULA, so none is bundled — the offline option uses request headers instead."
+msgstr ""
+
+msgid "Open Security Dashboard →"
+msgstr ""
+
+msgid "Open Settings"
+msgstr ""
+
+msgid "Open the dashboard:"
+msgstr ""
+
+msgid "Origin"
+msgstr ""
+
+msgid "Overview"
+msgstr ""
+
+msgid "Permanent"
+msgstr ""
+
+msgid "Permission denied."
+msgstr ""
+
+msgid "Print / Save as PDF"
+msgstr ""
+
+msgid "Produced by SecureTraffic Dashboard v%s"
+msgstr ""
+
+msgid "Provider"
+msgstr ""
+
+msgid "Put your site behind a CDN/WAF such as Cloudflare for edge filtering and DDoS protection."
+msgstr ""
+
+msgid "Reads headers like Cloudflare CF-IPCountry or CloudFront-Viewer-Country. No external request, no data to bundle."
+msgstr ""
+
+msgid "Reason"
+msgstr ""
+
+msgid "Recommendations"
+msgstr ""
+
+msgid "Recommended when first installing. Turn off to enforce blocks."
+msgstr ""
+
+msgid "Reduction"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "Remove this block?"
+msgstr ""
+
+msgid "Repeated failed logins trigger a temporary lockout."
+msgstr ""
+
+msgid "Report"
+msgstr ""
+
+msgid "Reports"
+msgstr ""
+
+msgid "Requests (24h)"
+msgstr ""
+
+msgid "Requests (24h): %d"
+msgstr ""
+
+msgid "Requests (7d)"
+msgstr ""
+
+msgid "Requests matched by a firewall rule or block list in the last 24 hours."
+msgstr ""
+
+msgid "Requests over time"
+msgstr ""
+
+msgid "Result"
+msgstr ""
+
+msgid "Retention is set to keep logs forever, which can grow the database. Consider setting a limit."
+msgstr ""
+
+msgid "Review"
+msgstr ""
+
+msgid "Review your posture"
+msgstr ""
+
+msgid "Save Settings"
+msgstr ""
+
+msgid "Scheduled Digest"
+msgstr ""
+
+msgid "Scope"
+msgstr ""
+
+msgid "Search IP, URL, agent…"
+msgstr ""
+
+msgid "Search IP, username…"
+msgstr ""
+
+msgid "SecureTraffic Dashboard"
+msgstr ""
+
+msgid "SecureTraffic Dashboard detected %1\\$d failed login attempts in the last hour, which exceeds your alert threshold of %2\\$d.\n\nReview the activity here:\n%3\\$s"
+msgstr ""
+
+msgid "SecureTraffic Dashboard v%s"
+msgstr ""
+
+msgid "SecureTraffic Settings"
+msgstr ""
+
+msgid "SecureTraffic starts in monitor-only mode — it logs everything but blocks nothing. Spend a day or two on the Traffic and Login Attempts tabs to learn what normal looks like for your site."
+msgstr ""
+
+msgid "SecureTraffic — At a glance"
+msgstr ""
+
+msgid "Security Dashboard"
+msgstr ""
+
+msgid "Security Report"
+msgstr ""
+
+msgid "Security digest for %s"
+msgstr ""
+
+msgid "Security impact: before & after"
+msgstr ""
+
+msgid "Security posture"
+msgstr ""
+
+msgid "Send a summary report"
+msgstr ""
+
+msgid "Send email alerts on high failed-login activity"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Step %1$d of %2$d"
+msgstr ""
+
+msgid "Success"
+msgstr ""
+
+msgid "Successful Logins (24h)"
+msgstr ""
+
+msgid "Successful logins (24h)"
+msgstr ""
+
+msgid "Successful logins (24h): %d"
+msgstr ""
+
+msgid "Successful logins in the last 24 hours."
+msgstr ""
+
+msgid "Successful only"
+msgstr ""
+
+msgid "Summary"
+msgstr ""
+
+msgid "Take regular off-site backups and test that you can restore them."
+msgstr ""
+
+msgid "Temporary (1 hour)"
+msgstr ""
+
+msgid "The admin area is served over HTTPS."
+msgstr ""
+
+msgid "The firewall is actively blocking malicious requests."
+msgstr ""
+
+msgid "The firewall is disabled. Enable it in Settings to evaluate incoming requests."
+msgstr ""
+
+msgid "The request firewall is enabled."
+msgstr ""
+
+msgid "Theme/plugin file editing is disabled in wp-admin."
+msgstr ""
+
+msgid "This page is not using HTTPS. Serve your site over TLS to protect credentials."
+msgstr ""
+
+msgid "Threshold (failed logins / hour)"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Time range"
+msgstr ""
+
+msgid "Too many requests. Please slow down."
+msgstr ""
+
+msgid "Top Countries"
+msgstr ""
+
+msgid "Top IPs"
+msgstr ""
+
+msgid "Top countries"
+msgstr ""
+
+msgid "Top countries:"
+msgstr ""
+
+msgid "Top source IPs"
+msgstr ""
+
+msgid "Top source IPs:"
+msgstr ""
+
+msgid "Total blocked events recorded since installation."
+msgstr ""
+
+msgid "Total inbound requests logged in the last 24 hours."
+msgstr ""
+
+msgid "Traffic"
+msgstr ""
+
+msgid "Traffic & Login Analytics"
+msgstr ""
+
+msgid "Trust proxy forwarding header (Cloudflare / load balancer)"
+msgstr ""
+
+msgid "Turn on enforcement"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Unsuccessful login attempts in the last 24 hours."
+msgstr ""
+
+msgid "Use CDN/proxy country headers when available (offline, instant)"
+msgstr ""
+
+msgid "Use strong, unique passwords and a password manager; never reuse credentials."
+msgstr ""
+
+msgid "User Agent"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Watch your traffic"
+msgstr ""
+
+msgid "Weekly"
+msgstr ""
+
+msgid "When off, your logs and settings survive an uninstall so you can reinstall without losing history."
+msgstr ""
+
+msgid "When you are confident, switch off monitor-only mode so the firewall actively blocks malicious requests. Your before/after impact is tracked automatically and shown in Reports."
+msgstr ""
+
+msgid "Where requests come from"
+msgstr ""
+
+msgid "Whitelist your own IP"
+msgstr ""
+
+msgid "Whitelisted IPs / CIDRs"
+msgstr ""
+
+msgid "Whitelisted countries"
+msgstr ""
+
+msgid "Within window (seconds)"
+msgstr ""
+
+msgid "WordPress (PHP) can only observe outbound HTTP requests that it makes itself through its HTTP API (for example, plugin update checks and REST callbacks). These are logged above with an \"OUTBOUND\" prefix when outbound logging is enabled."
+msgstr ""
+
+msgid "You do not have permission to export reports."
+msgstr ""
+
+msgid "You do not have permission to view this page."
+msgstr ""
+
+msgid "You will be emailed when failed-login activity spikes."
+msgstr ""
+
+msgid "Your request has been blocked by SecureTraffic Dashboard."
+msgstr ""
+
+msgid "[%2$s] SecureTraffic %1$s security digest"
+msgstr ""
+
+msgid "[%s] SecureTraffic Dashboard: high failed-login activity"
+msgstr ""
+
+msgid "e.g. 203.0.113.10"
+msgstr ""
+
+msgid "ip-api.com (free external API, no key)"
+msgstr ""
+
+msgid "never"
+msgstr ""
+
+msgid "unknown"
+msgstr ""
+

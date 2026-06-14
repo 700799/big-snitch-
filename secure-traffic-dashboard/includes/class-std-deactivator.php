@@ -24,6 +24,7 @@ class STD_Deactivator {
 	public static function deactivate() {
 		wp_clear_scheduled_hook( 'std_aggregate' );
 		wp_clear_scheduled_hook( 'std_purge' );
+		wp_clear_scheduled_hook( 'std_digest' );
 
 		flush_rewrite_rules();
 	}

@@ -61,15 +61,32 @@ class STD_GeoIP {
 			return $empty;
 		}
 
-		// Serve from cache when possible.
+		// Offline-first: a CDN/proxy-provided country header costs nothing and
+		// makes no external request. This is the default, license-free source.
+		$header_cc = self::header_country();
+		if ( '' !== $header_cc ) {
+			return array(
+				'country' => $header_cc,
+				'city'    => '',
+			);
+		}
+
+		$provider = STD_Settings::get( 'geoip_provider', 'headers' );
+
+		// The "headers" provider is purely offline; if no header was present
+		// above there is nothing more to do (no external call).
+		if ( 'headers' === $provider ) {
+			return $empty;
+		}
+
+		// Serve external-provider results from cache when possible.
 		$cache_key = self::CACHE_PREFIX . md5( $ip );
 		$cached    = get_transient( $cache_key );
 		if ( false !== $cached && is_array( $cached ) ) {
 			return wp_parse_args( $cached, $empty );
 		}
 
-		$provider = STD_Settings::get( 'geoip_provider', 'ip-api' );
-		$result   = self::query_provider( $provider, $ip );
+		$result = self::query_provider( $provider, $ip );
 
 		// Cache even partial/empty results to avoid hammering the API on repeat
 		// failures (shorter TTL for misses).
@@ -77,6 +94,43 @@ class STD_GeoIP {
 		set_transient( $cache_key, $result, $ttl );
 
 		return $result;
+	}
+
+	/**
+	 * Read the visitor country from a trusted CDN/proxy header, if present.
+	 *
+	 * Recognizes the common headers set by Cloudflare, AWS CloudFront and other
+	 * edges. This is fully offline and instant. Gated by the
+	 * `geoip_trust_headers` setting (default on) because the header is only
+	 * meaningful when the site genuinely sits behind such an edge.
+	 *
+	 * @return string ISO-2 country code, or '' if unavailable.
+	 */
+	public static function header_country() {
+		if ( ! STD_Settings::get( 'geoip_trust_headers', 1 ) ) {
+			return '';
+		}
+
+		$headers = array(
+			'HTTP_CF_IPCOUNTRY',            // Cloudflare.
+			'HTTP_CLOUDFRONT_VIEWER_COUNTRY', // AWS CloudFront.
+			'HTTP_X_GEO_COUNTRY',
+			'HTTP_X_COUNTRY_CODE',
+			'HTTP_GEOIP_COUNTRY_CODE',      // Some Nginx/Apache GeoIP modules.
+		);
+
+		foreach ( $headers as $key ) {
+			if ( empty( $_SERVER[ $key ] ) ) {
+				continue;
+			}
+			$cc = strtoupper( substr( sanitize_text_field( wp_unslash( $_SERVER[ $key ] ) ), 0, 2 ) );
+			// Ignore placeholder values such as Cloudflare's "XX"/"T1".
+			if ( 2 === strlen( $cc ) && ctype_alpha( $cc ) && 'XX' !== $cc && 'T1' !== $cc ) {
+				return $cc;
+			}
+		}
+
+		return '';
 	}
 
 	/**
@@ -101,16 +155,20 @@ class STD_GeoIP {
 		$max_ips = min( 200, max( 1, absint( $max_ips ) ) );
 
 		// Collect distinct, recent IPs still missing a country from either table.
+		// Table names come from STD_Helpers::table() (whitelisted), the only
+		// interpolated values; the limit is a prepared placeholder.
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$ips = $wpdb->get_col(
 			$wpdb->prepare(
 				"SELECT ip FROM (
 					SELECT ip FROM {$traffic} WHERE country = '' AND ip <> ''
 					UNION
 					SELECT ip FROM {$logins} WHERE country = '' AND ip <> ''
-				) t GROUP BY ip LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				) t GROUP BY ip LIMIT %d",
 				$max_ips
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$updated = 0;
 		foreach ( (array) $ips as $ip ) {
